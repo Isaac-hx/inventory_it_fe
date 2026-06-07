@@ -58,7 +58,7 @@ const filteredOtherMenus = otherMenus.filter((menu) =>
 );
   return (
     <aside className="h-full w-64 border-r bg-white">
-      <div className="flex h-16 items-center border-b px-6">
+      <div className="flex h-16 items-center border-b px-8">
         <h1 className="text-md font-bold">ITB Inventory Asset IT</h1>
       </div>
 
