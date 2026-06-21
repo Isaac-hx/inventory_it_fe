@@ -29,6 +29,7 @@ import { createAsset } from "@/api/asset.api";
 import { getAllBrands } from "@/api/brand.api";         // Pastikan path import ini benar
 import { getAllCategories } from "@/api/category.api";   // Pastikan path import ini benar
 import { Textarea } from "@/components/ui/textarea";
+import { FormatDate } from "@/components/shared/format-date";
 
 export default function CreateAssetDialog() {
   const [open, setOpen] = useState(false);
@@ -63,6 +64,7 @@ export default function CreateAssetDialog() {
       serial_number: "",
       description:"",
       status: "available",
+      quantity_stock:1,
     },
   });
 
@@ -84,6 +86,7 @@ export default function CreateAssetDialog() {
   });
 
   const onSubmit = (values: AssetRequest) => {
+    values.purchased_date = FormatDate(values.purchased_date)
     mutation.mutate(values);
   };
 
@@ -127,6 +130,21 @@ export default function CreateAssetDialog() {
                 disabled={mutation.isPending}
                 {...register("serial_number", {
                   required: "Serial number is required",
+                })}
+              />
+              {errors.serial_number && (
+                <p className="text-xs font-medium text-red-500">{errors.serial_number.message}</p>
+              )}
+            </div>
+                        {/* quantity stock */}
+            <div className="space-y-1">
+              <Label htmlFor="quantity_stock">Quantity Stock</Label>
+              <Input
+                id="quantity_stock"
+                placeholder="Quantity stock"
+                disabled={mutation.isPending}
+                {...register("quantity_stock", {
+                  required: "Quantity stock is required",
                 })}
               />
               {errors.serial_number && (

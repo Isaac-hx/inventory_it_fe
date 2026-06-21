@@ -50,7 +50,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
 
       return (
         <span className="">
-          {new Date(createdAt).toLocaleDateString()}
+          {createdAt}
 
         </span>
       );

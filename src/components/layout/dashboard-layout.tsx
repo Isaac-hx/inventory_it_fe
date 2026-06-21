@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { X } from "lucide-react";
 
+import NavigatorBreadcrumbs from "../shared/breadcrumb";
 import AppSidebar from "@/components/layout/app-sidebar";
 import AppNavbar from "@/components/layout/app-navbar";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const location = useLocation()
+  console.log(location)
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-background">
       {/* Desktop Sidebar */}
       <div className="fixed left-0 top-0 hidden h-screen lg:block">
         <AppSidebar />
@@ -46,7 +48,8 @@ export default function DashboardLayout() {
       <div className="lg:ml-64 ">
         <AppNavbar onOpenSidebar={() => setSidebarOpen(true)} />
 
-        <main className="p-4 lg:p-6">
+        <main className="p-4 lg:p-6 space-y-4">
+          <NavigatorBreadcrumbs pathname={location.pathname} />
           <Outlet />
         </main>
       </div>

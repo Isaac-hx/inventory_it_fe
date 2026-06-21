@@ -3,14 +3,15 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { useState } from "react";
 import { Pencil, Eye, MoreVertical, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import DetailUserDialog from "./detail-user-slider";
+// import DetailUserDialog from "./detail-user-slider";
 import type { User } from "@/types/user";
 import DeleteUserDialog from "./delete-user-dialog";
 import UpdateUserSheet from "./update-user-slider";
+import { Link } from "react-router";
 
 export default function UserActionCell({ user }: { user: User }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [detailOpen, setDetailOpen] = useState(false);
+  // const [detailOpen, setDetailOpen] = useState(false);
   const  [updateOpen,setUpdateOpen] = useState(false)
   return (
     <>
@@ -26,10 +27,28 @@ export default function UserActionCell({ user }: { user: User }) {
           <DropdownMenuItem
           onClick={(e) => {
               e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
-              setDetailOpen(true);
             }}>
-            <Eye className="mr-2 h-4 w-4" />
-            View
+
+              <Link
+                to={`/users/${user.UserId}`}
+                style={{
+                  WebkitTapHighlightColor: "transparent",
+                }}
+                className="
+                  w-full
+                  flex
+                  items-center
+                  bg-transparent
+                  hover:bg-transparent
+                  active:bg-transparent
+                  focus:bg-transparent
+                  focus:outline-none
+                "
+              >
+                <Eye className="mr-3 h-4 w-4" />
+                View
+              </Link>
+
           </DropdownMenuItem>
 
           <DropdownMenuItem           onClick={(e) => {
@@ -52,11 +71,7 @@ export default function UserActionCell({ user }: { user: User }) {
       </DropdownMenu>
 
       {/* PINDAHKAN DI SINI (Di luar DropdownMenu) */}
-      <DetailUserDialog
-        open={detailOpen}
-        onOpenChange={setDetailOpen}
-        userId={user.UserId}
-      />
+
       <UpdateUserSheet
         open={updateOpen}
         onOpenChange={setUpdateOpen}

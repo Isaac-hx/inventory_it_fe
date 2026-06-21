@@ -3,9 +3,28 @@ import { DataTable } from "@/components/tables/data-table";
 import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
-import { getAllAssetsWithQueryParams } from "@/api/asset.api";
+import { getAllAssetsData, getAllAssetsWithQueryParams } from "@/api/asset.api";
 import CreateAssetDialog from "./create-asset-dialog";
 import { assetColumns } from "./columns";
+import { Button } from "@/components/ui/button";
+import { exportToExcel } from "@/components/shared/convert-to-excel";
+import { FileSpreadsheet } from "lucide-react";
+
+const assetColumnDef = [
+  {header:"Asset ID",key:"AssetId",width:15},
+  {header:"Asset Name",key:"AssetName",width:15},
+  {header:"Description",key:"Description",width:15},
+  {header:"Quantity Stock",key:"Quantity Stock",width:15},
+  {header:"Serial Number",key:"SerialNumber",width:15},
+  {header:"Purchased Date",key:"PurchasedDate",width:15},
+  {header:"Serial Number",key:"SerialNumber",width:15},
+  {header:"Status",key:"Status",width:15},
+  {header:"Brand Name",key:"BrandName",width:15},
+  {header:"CategoryName",key:"CategoryName",width:15},
+  {header:"Created At",key:"CreatedAt",width:15},
+  {header:"Updated At",key:"UpdatedAt",width:15}
+
+]
 
 export default function AssetPage() {
   const [page, setPage] = useState(1);
@@ -38,7 +57,15 @@ export default function AssetPage() {
           <p className="text-sm text-muted-foreground">Manage assets.</p>
         </div>
 
-        <CreateAssetDialog />
+     <div className="space-x-2 flex">
+          <Button 
+          onClick={()=>{exportToExcel(assetColumnDef,getAllAssetsData,"assets")}}
+          variant="secondary" >
+            <FileSpreadsheet size={15}/>
+            Export to excel</Button>
+          <CreateAssetDialog />
+        </div>
+
       </div>
 
       {/* 👇 3. INDIKATOR LOADING HALUS (Opsional):

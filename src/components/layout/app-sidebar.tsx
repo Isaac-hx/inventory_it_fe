@@ -35,7 +35,7 @@ function MenuItem({ menu }: { menu }) {
       className={({ isActive }) =>
         `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
           isActive
-            ? "bg-slate-900 text-white"
+            ? "bg-primary text-white"
             : "text-slate-700 hover:bg-slate-100"
         }`
       }

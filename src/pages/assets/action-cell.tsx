@@ -7,7 +7,7 @@ import type { Asset } from "@/types/asset";
 import DetailAssetDialog from "./detail-asset-slider";
 import DeleteAssetDialog from "./delete-asset-dialog";
 import UpdateAssetSheet from "./update-asset-slider";
-
+import { Link } from "react-router";
 
 
 
@@ -29,10 +29,28 @@ export default function AssetActionCell({ asset }: { asset: Asset }) {
           <DropdownMenuItem
           onClick={(e) => {
               e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
-              setDetailOpen(true);
             }}>
-            <Eye className="mr-2 h-4 w-4" />
+                          <Link
+                to={`/assets/${asset.AssetId}`}
+                style={{
+                  WebkitTapHighlightColor: "transparent",
+                }}
+                className="
+                  w-full
+                  flex
+                  items-center
+                  bg-transparent
+                  hover:bg-transparent
+                  active:bg-transparent
+                  focus:bg-transparent
+                  focus:outline-none
+                "
+              >
+
+                            <Eye className="mr-2 h-4 w-4" />
             View
+              </Link>
+
           </DropdownMenuItem>
 
           <DropdownMenuItem           onClick={(e) => {
@@ -60,11 +78,13 @@ export default function AssetActionCell({ asset }: { asset: Asset }) {
         onOpenChange={setDetailOpen}
         assetId={asset.AssetId}
       />
-      <UpdateAssetSheet
-        open={updateOpen}
-        onOpenChange={setUpdateOpen}
-        assetId={asset.AssetId}
-      />
+
+    <UpdateAssetSheet
+      open={updateOpen}
+      onOpenChange={setUpdateOpen}
+      assetId={asset.AssetId}
+      
+    />
 
       <DeleteAssetDialog
         open={deleteOpen}

@@ -6,9 +6,24 @@ import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
 import CreateUserDialog from "./create-user-dialog";
-import { getAllUsersWithQueryParams } from "@/api/user.api";
+import { getAllUsersData, getAllUsersWithQueryParams } from "@/api/user.api";
+import { Button } from "@/components/ui/button";
+import { FileSpreadsheet } from "lucide-react";
+import { exportToExcel } from "@/components/shared/convert-to-excel";
 
-export default function BrandPage() {
+
+const userColumnDef = [
+  {header:"User Id",key:"UserId",width:15},
+  {header:"Username",key:"Username",width:15},
+  {header:"Email",key:"Email",width:15},
+  {header:"Role",key:"Role",width:15},
+  {header:"Department Name",key:"DepartmentName",width:15},
+  {header:"Created At",key:"CreatedAt",width:15},
+  {header:"Updated At",key:"UpdatedAt",width:15}
+
+]
+
+export default function UserPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [search, setSearch] = useState("");
@@ -39,7 +54,15 @@ export default function BrandPage() {
           <p className="text-sm text-muted-foreground">Manage users.</p>
         </div>
 
-        <CreateUserDialog />
+     <div className="space-x-2 flex">
+          <Button 
+          onClick={()=>{exportToExcel(userColumnDef,getAllUsersData,"users")}}
+          variant="ghost" className={'border border-black bg-white'} >
+            <FileSpreadsheet size={15}/>
+            Export to excel</Button>
+          <CreateUserDialog />
+        </div>
+
       </div>
 
       {/* 👇 3. INDIKATOR LOADING HALUS (Opsional):

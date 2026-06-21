@@ -17,7 +17,7 @@ export const brandColumn: ColumnDef<Brand>[] = [
                 className="flex items-center gap-1"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}           
                 >
-                    Created At
+                    Brand Name
                     <div className="space-y-0">
 
                         <ChevronsUpDown size={15}/>
@@ -48,7 +48,7 @@ export const brandColumn: ColumnDef<Brand>[] = [
 
       return (
         <span className="">
-          {new Date(createdAt).toLocaleDateString()}
+          {createdAt}
 
         </span>
       );

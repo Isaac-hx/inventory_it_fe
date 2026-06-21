@@ -26,18 +26,12 @@ export default function DetailAssetDialog({
     queryFn: () => getAssetById(assetId),
     enabled: open && !!assetId,
   });
-
+  console.log(assetId)
   const rawAssetData = data?.data;
 
   // 2. Type Narrowing untuk mengantisipasi data berupa array atau objek tunggal
   const asset = Array.isArray(rawAssetData) ? rawAssetData[0] : rawAssetData;
 
-  // Fungsi pembantu memformat tanggal agar aman dari crash
-  const formatDate = (dateString: any) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return isNaN(date.getTime()) ? "-" : date.toLocaleDateString();
-  };
 
   return (
     <Sheet  open={open} onOpenChange={onOpenChange}>
@@ -88,6 +82,15 @@ export default function DetailAssetDialog({
                   {asset.serial_number || asset.SerialNumber || "-"}
                 </p>
               </div>
+              {/* Quantity Stock  Info */}
+              <div className="rounded-lg border bg-slate-50 p-4">
+                <p className="text-xs font-medium uppercase text-muted-foreground">
+                  Quantity Stock
+                </p>
+                <p className="mt-1 text-sm font-mono font-semibold text-slate-800">
+                  {asset.QuantityStock ||  "-"}
+                </p>
+              </div>
               {/* Description Info */}
               <div className="rounded-lg border bg-slate-50 p-4">
                 <p className="text-xs font-medium uppercase text-muted-foreground">
@@ -106,7 +109,7 @@ export default function DetailAssetDialog({
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
                     {/* Mengakomodasi jika berelasi object (asset.Brand.BrandName) atau langsung string */}
-                    {asset.Brand?.BrandName || asset.brand_name || "-"}
+                    {asset.Brand?.BrandName || asset.brand_name ||asset.BrandName|| "-"}
                   </p>
                 </div>
 
@@ -115,7 +118,7 @@ export default function DetailAssetDialog({
                     Category
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
-                    {asset.Category?.CategoryName || asset.category_name || "-"}
+                    {asset.Category?.CategoryName || asset.category_name ||asset.CategoryName ||"-"}
                   </p>
                 </div>
               </div>
@@ -127,7 +130,7 @@ export default function DetailAssetDialog({
                     Purchased Date
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
-                    {formatDate(asset.purchased_date || asset.PurchasedDate)}
+                    {asset.purchased_date || asset.PurchasedDate}
                   </p>
                 </div>
 
@@ -148,7 +151,7 @@ export default function DetailAssetDialog({
                     Created At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {formatDate(asset.created_at || asset.CreatedAt)}
+                    {asset.created_at || asset.CreatedAt}
                   </p>
                 </div>
 
@@ -157,7 +160,7 @@ export default function DetailAssetDialog({
                     Updated At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {formatDate(asset.updated_at || asset.UpdatedAt)}
+                    {asset.updated_at || asset.UpdatedAt}
                   </p>
                 </div>
               </div>

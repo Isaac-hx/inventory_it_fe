@@ -3,15 +3,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { User } from "@/types/user";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-import { Button } from "@/components/ui/button";
-import { MoreVertical,Pencil,Eye,Trash,ChevronsUpDown } from "lucide-react";
+import {ChevronsUpDown } from "lucide-react";
 import UserActionCell from "./action-cell";
 
 // Definisi struktur kolom data
@@ -92,7 +85,7 @@ export const userColumns: ColumnDef<User>[] = [
 
       return (
         <span className="">
-          {new Date(createdAt).toLocaleDateString()}
+          {createdAt}
 
         </span>
       );

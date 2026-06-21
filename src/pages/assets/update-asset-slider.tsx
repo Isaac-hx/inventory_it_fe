@@ -27,6 +27,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 import type { AssetRequest } from "@/types/asset";
+import { FormatDate } from "@/components/shared/format-date";
 
 type UpdateAssetSheetProps = {
   open: boolean;
@@ -56,6 +57,7 @@ export default function UpdateAssetSheet({
       serial_number: "",
       description: "",
       status: "available",
+      quantity_stock:1,
     },
   });
 
@@ -79,14 +81,7 @@ export default function UpdateAssetSheet({
 
   const rawAssetData = assetData?.data;
   const asset = Array.isArray(rawAssetData) ? rawAssetData[0] : rawAssetData;
-
-  const formatInputDate = (dateString: any) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
-    return date.toISOString().split("T")[0];
-  };
-
+  console.log(asset)
   useEffect(() => {
     if (!open || !asset) return;
 
@@ -108,12 +103,13 @@ export default function UpdateAssetSheet({
         asset.Category?.CategoryId ||
         ""
       ),
-      purchased_date: formatInputDate(
+      purchased_date: FormatDate(
         asset.purchased_date || asset.PurchasedDate
       ),
       serial_number: asset.serial_number || asset.SerialNumber || "",
       description: asset.description || asset.Description || "",
       status: asset.status || asset.Status || "available",
+      quantity_stock:asset.QuantityStock || asset.quantity_stock || "-",
     });
   }, [open, asset, reset]);
 
@@ -132,6 +128,7 @@ export default function UpdateAssetSheet({
   });
 
   const onSubmit = (values: AssetRequest) => {
+    values.purchased_date = FormatDate(values.purchased_date)
     mutation.mutate(values);
   };
 
@@ -200,6 +197,20 @@ export default function UpdateAssetSheet({
                   <p className="text-xs font-medium text-red-500">{errors.serial_number.message}</p>
                 )}
               </div>
+              {/* Quantity Stock Field */}
+              <div className="space-y-1">
+                <Label htmlFor="quantity_stock">Quantity Stock</Label>
+                <Input
+                  id="quantity_stock"
+                  type="number"
+                  placeholder="Quantity Stock"
+                  disabled={mutation.isPending}
+                  {...register("quantity_stock", { required: "Quantity Stock is required" })}
+                />
+                {errors.quantity_stock && (
+                  <p className="text-xs font-medium text-red-500">{errors.quantity_stock.message}</p>
+                )}
+              </div>
 
               {/* Description Field */}
               <div className="space-y-1">
@@ -247,7 +258,7 @@ export default function UpdateAssetSheet({
                                   key={brand.id || brand.BrandId}
                                   value={String(brand.id || brand.BrandId)}
                                 >
-                                  {brand.name || brand.BrandName}
+                                  {brand.name || brand.BrandName || console.log(brand)}
                                 </SelectItem>
                               ))}
                             </SelectGroup>

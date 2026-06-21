@@ -4,15 +4,14 @@ import { useState } from "react";
 import { Pencil, Eye, MoreVertical, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import DetailMaintenanceSheet from "./detail-maintenance-slider";
-import type { Maintenance } from "@/types/maintenance";
-import UpdateMaintenanceSheet from "./update-maintenance-slider";
-import DeleteMaintenanceDialog from "./delete-maintenance-dialog";
+import type { AssetAssignment } from "@/types/asset_assignment";
+import DetailAssignmentSheet from "./detail-asset-slider";
+import UpdateAssignmentSheet from "./update-assignment-slider";
 
 
 
 
-export default function MaintenanceActionCell({ maintenance }: { maintenance: Maintenance }) {
+export default function AssignmentActionCell({ assignment }: { assignment: AssetAssignment }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const  [updateOpen,setUpdateOpen] = useState(false)
@@ -50,18 +49,18 @@ export default function MaintenanceActionCell({ maintenance }: { maintenance: Ma
       </DropdownMenu>
 
       {/* PINDAHKAN DI SINI (Di luar DropdownMenu) */}
-      <DetailMaintenanceSheet
+      <DetailAssignmentSheet
         open={detailOpen}
         onOpenChange={setDetailOpen}
-        maintenanceId={maintenance.MaintenanceId}
+        assignmentId={assignment.AssignmentId}
       />
-      <UpdateMaintenanceSheet
+      <UpdateAssignmentSheet
         open={updateOpen}
         onOpenChange={setUpdateOpen}
-        maintenanceId={maintenance.MaintenanceId}
+        assignmentId={assignment.AssignmentId}
       />
 
-
+ 
     </>
   );
 }

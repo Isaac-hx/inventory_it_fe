@@ -73,7 +73,7 @@ export const assetColumns: ColumnDef<Asset>[] = [
 
       return (
         <span className="">
-          {new Date(createdAt).toLocaleDateString()}
+          {createdAt}
 
         </span>
       );

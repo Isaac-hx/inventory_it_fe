@@ -78,6 +78,7 @@ export default function CreateUserDialog() {
   });
 
   const onSubmit = (values: CreateUserForm) => {
+    console.log(values)
     mutation.mutate(values);
   };
 
@@ -97,7 +98,7 @@ export default function CreateUserDialog() {
           <div className="grid gap-3">
             
             {/* Username Field */}
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
@@ -115,7 +116,7 @@ export default function CreateUserDialog() {
             </div>
 
             {/* Email Field */}
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -138,7 +139,7 @@ export default function CreateUserDialog() {
             </div>
 
             {/* Password Field */}
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -161,7 +162,7 @@ export default function CreateUserDialog() {
             </div>
 
             {/* Department Select Field */}
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label>Department</Label>
               <Controller
                 name="department_id"
@@ -187,7 +188,7 @@ export default function CreateUserDialog() {
                           {data?.data?.map((department: any) => (
                             <SelectItem
                               key={department.id || department.DepartmentId}
-                              value={String(department.id || department.DepartmentId)}
+                              value={String(department.DepartmentId)}
                             >
                               {department.name || department.DepartmentName}
                             </SelectItem>
@@ -206,7 +207,7 @@ export default function CreateUserDialog() {
             </div>
 
             {/* Role Select Field */}
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label>Role</Label>
               <Controller
                 name="role"

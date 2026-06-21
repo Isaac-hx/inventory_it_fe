@@ -5,9 +5,20 @@ import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
 import CreateBrandDialog from "./create-department-dialog";
-import { getAllDepartmentsWithQueryParams } from "@/api/department.api";
+import { getAllDepartments, getAllDepartmentsWithQueryParams } from "@/api/department.api";
 import { departmentColumns } from "./columns";
 
+import { FileSpreadsheet } from "lucide-react";
+import CreateDepartmentDialog from "./create-department-dialog";
+import { exportToExcel } from "@/components/shared/convert-to-excel";
+import { Button } from "@/components/ui/button";
+const departmenColumnDef = [
+  {header:"Department Id",key:"DepartmentId",width:15},
+  {header:"Deparment Name",key:"DepartmentName",width:15},
+  {header:"Created At",key:"CreatedAt",width:15},
+  {header:"Updated At",key:"UpdatedAt",width:15}
+
+]
 export default function DepartmentPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -35,11 +46,17 @@ export default function DepartmentPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Depatments</h1>
+          <h1 className="text-2xl font-bold">Departments</h1>
           <p className="text-sm text-muted-foreground">Manage departments.</p>
         </div>
-
-        <CreateBrandDialog />
+          <div className="space-x-2 flex">
+          <Button 
+          onClick={()=>{exportToExcel(departmenColumnDef,getAllDepartments,"departments")}}
+          variant="ghost" className={'border border-black bg-white'} >
+            <FileSpreadsheet size={15}/>
+            Export to excel</Button>
+          <CreateDepartmentDialog />
+        </div>
       </div>
 
       {/* 👇 3. INDIKATOR LOADING HALUS (Opsional):

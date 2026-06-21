@@ -47,7 +47,7 @@ export const categoryColumn: ColumnDef<Category>[] = [
 
       return (
         <span className="">
-          {new Date(createdAt).toLocaleDateString()}
+          {createdAt}
 
         </span>
       );

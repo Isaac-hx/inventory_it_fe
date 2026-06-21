@@ -9,6 +9,9 @@ import DepartmentPage from "@/pages/department/department-page";
 import CategoryPage from "@/pages/categories/categories-page";
 import AssetPage from "@/pages/assets/asset-page";
 import MaintenancePage from "@/pages/maintenance/maintenance-page";
+import AssignmentPage from "@/pages/asset-assignments/assignment-page";
+import DetailPageUser from "@/pages/user/detail-user-page";
+import DetailPageAsset from "@/pages/assets/detail-asset-page";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -19,6 +22,7 @@ export default function AppRoutes() {
          <Route element={<ProtectedRoute allowedRoles={["superuser"]} />}>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/users" element={<UserPage />} />
+              <Route path="/users/:user_id" element={<DetailPageUser/>}/>
               <Route path="/departments" element={<DepartmentPage />} />
 
          </Route>
@@ -26,7 +30,10 @@ export default function AppRoutes() {
               <Route path="/categories" element={<CategoryPage />} />
               <Route path="/brands" element={<BrandPage />} />
               <Route path="/assets" element={<AssetPage />} />
+              <Route path="/assets/:asset_id" element={<DetailPageAsset />} />
+
               <Route path="/maintenances" element={<MaintenancePage />} />
+              <Route path="/asset-assignments" element={<AssignmentPage />} />
 
           </Route>
 

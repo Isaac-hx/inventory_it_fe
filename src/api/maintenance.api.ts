@@ -31,3 +31,8 @@ export async function createMaintenance(payload:MaintenanceRequest){
     return response.data
 
 }
+
+export async function getAllMaintenancesData(){
+    const response = await api.get<MaintenanceResponse>(`/all-maintenances`)
+    return response.data
+}

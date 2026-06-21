@@ -20,3 +20,13 @@ export async function deleteUserById(userId:string){
     const response = await api.delete<UserResponse>(`/users/${userId}`)
     return response.data
 }
+
+export async function getAllUsers(){
+  const response = await api.get<UserResponse>(`/users`)
+  return response.data
+}
+
+export async function getAllUsersData(){
+  const response = await api.get<UserResponse>(`/all-users`)
+  return response.data
+}

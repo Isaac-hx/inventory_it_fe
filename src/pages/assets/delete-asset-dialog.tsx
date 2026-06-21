@@ -41,8 +41,8 @@ export default function DeleteAssetDialog({
       onOpenChange(false);
     },
     onError:(error:any)=>{
-        const errorMessage = error?.response?.data?.error || "Something went wrong."
-        toast.error(`Failed to create asset:${errorMessage}`)
+        const errorMessage = error?.response?.data?.error.Message || "Something went wrong."
+        toast.error(`Failed to delete asset : ${errorMessage}`)
     }
   });
 

@@ -3,9 +3,20 @@ import { DataTable } from "@/components/tables/data-table";
 import { brandColumn } from "./columns";
 import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getAllBrandsWithQueryParams } from "@/api/brand.api";
+import { getAllBrands, getAllBrandsWithQueryParams } from "@/api/brand.api";
 import useDebounce from "@/hooks/use-debounce";
 import CreateBrandDialog from "./create-brand-dialog";
+import { FileSpreadsheet } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exportToExcel } from "@/components/shared/convert-to-excel";
+
+const brandColumnDef = [
+  {header:"Brand ID",key:"BrandId",width:15},
+  {header:"Brand Name",key:"BrandName",width:15},
+  {header:"Created At",key:"CreatedAt",width:15},
+  {header:"Updated At",key:"UpdatedAt",width:15}
+
+]
 
 export default function BrandPage() {
   const [page, setPage] = useState(1);
@@ -37,8 +48,15 @@ export default function BrandPage() {
           <h1 className="text-2xl font-bold">Brands</h1>
           <p className="text-sm text-muted-foreground">Manage brands.</p>
         </div>
+                <div className="space-x-2 flex">
+          <Button 
+          onClick={()=>{exportToExcel(brandColumnDef,getAllBrands,"brands")}}
+          variant="ghost" className={'border border-black bg-white'} >
+            <FileSpreadsheet size={15}/>
+            Export to excel</Button>
+          <CreateBrandDialog />
+        </div>
 
-        <CreateBrandDialog />
       </div>
 
       {/* 👇 3. INDIKATOR LOADING HALUS (Opsional):

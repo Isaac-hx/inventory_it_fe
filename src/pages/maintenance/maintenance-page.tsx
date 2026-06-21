@@ -4,10 +4,31 @@ import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
 import CreateMaintenanceSheet from "./create-maintenance-dialog";
-import { getAllMaintenancesWithQueryParams } from "@/api/maintenance.api";
+import { getAllMaintenancesData, getAllMaintenancesWithQueryParams } from "@/api/maintenance.api";
 import { maintenanceColumns } from "./columns";
+import { Button } from "@/components/ui/button";
+import { exportToExcel } from "@/components/shared/convert-to-excel";
+import { FileSpreadsheet } from "lucide-react";
 
 
+const maintenanceColumnDef = [
+  {header:"Maintenance Id",key:"MaintenanceId",width:15},
+  {header:"Description",key:"Description",width:15},
+  {header:"Cost",key:"Cost",width:15},
+  {header:"Status",key:"Status",width:15},
+  {header:"Asset Name",key:"AssetName",width:15},
+  {header:"Serial Number",key:"SerialNumber",width:15},
+  {header:"Maintenance At",key:"MaintenanceAt",width:15},
+  {header:"Completed At",key:"CompletedAt",width:15},
+  {header:"Brand Name",key:"BrandName",width:15},
+  {header:"Category Name",key:"CategoryName",width:15},
+
+
+  {header:"Created At",key:"CreatedAt",width:15},
+
+  {header:"Updated At",key:"UpdatedAt",width:15}
+
+]
 export default function MaintenancePage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -38,8 +59,14 @@ export default function MaintenancePage() {
           <h1 className="text-2xl font-bold">Maintenances</h1>
           <p className="text-sm text-muted-foreground">Manage maintenances.</p>
         </div>
-
-        <CreateMaintenanceSheet />
+     <div className="space-x-2 flex">
+          <Button 
+          onClick={()=>{exportToExcel(maintenanceColumnDef,getAllMaintenancesData,"maintenances")}}
+          variant="ghost" className={'border border-black bg-white'} >
+            <FileSpreadsheet size={15}/>
+            Export to excel</Button>
+          <CreateMaintenanceSheet />
+        </div>
       </div>
 
       {/* 👇 3. INDIKATOR LOADING HALUS (Opsional):

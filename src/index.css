@@ -7,11 +7,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
-body{
-      font-family: 'Inter', sans-serif;
-
+body {
+  font-family: 'Inter', sans-serif;
 }
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -43,31 +42,26 @@ body{
     font-size: 16px;
   }
 
-  --background: oklch(1 0 0);
-
+  --background: oklch(0.985 0 0);
   --foreground: oklch(0.145 0 0);
 
   --card: oklch(1 0 0);
-
   --card-foreground: oklch(0.145 0 0);
 
   --popover: oklch(1 0 0);
-
   --popover-foreground: oklch(0.145 0 0);
 
-  --primary: oklch(0.205 0 0);
-
+  /* Tech Blue Utama */
+  --primary: oklch(0.44 0.19 253.5);
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.97 0 0);
-
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: oklch(0.44 0.19 253.5);
 
   --muted: oklch(0.97 0 0);
-
   --muted-foreground: oklch(0.556 0 0);
 
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-foreground: oklch(0.44 0.19 253.5);
 
   --destructive: oklch(0.577 0.245 27.325);
 
@@ -76,32 +70,30 @@ body{
   --ring: oklch(0.708 0 0);
 
   --chart-1: oklch(0.87 0 0);
-
   --chart-2: oklch(0.556 0 0);
-
   --chart-3: oklch(0.439 0 0);
-
   --chart-4: oklch(0.371 0 0);
-
   --chart-5: oklch(0.269 0 0);
 
   --radius: 0.625rem;
 
   --sidebar: oklch(0.985 0 0);
-
   --sidebar-foreground: oklch(0.145 0 0);
-
-  --sidebar-primary: oklch(0.205 0 0);
-
+  --sidebar-primary: oklch(0.44 0.19 253.5);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-
   --sidebar-accent: oklch(0.97 0 0);
-
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-
+  --sidebar-accent-foreground: oklch(0.44 0.19 253.5);
   --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 
-  --sidebar-ring: oklch(0.708 0 0)}
+  /* 👇 Tambahan Token Status Inventaris Baru (Light Mode) */
+  --asset-available: oklch(0.69 0.19 152.1);     /* Hijau Stabil */
+  --asset-available-bg: oklch(0.96 0.02 156.0);
+  --asset-pending: oklch(0.72 0.16 50.0);       /* Kuning/Oranye Hangat */
+  --asset-pending-bg: oklch(0.97 0.03 62.0);
+  --asset-broken: oklch(0.63 0.22 25.6);        /* Merah Peringatan */
+  --asset-broken-bg: oklch(0.95 0.03 30.0);
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -168,17 +160,25 @@ body {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* 👇 Daftarkan utilitas kelas baru untuk dipanggil Tailwind v4 */
+  --color-asset-available: var(--asset-available);
+  --color-asset-available-bg: var(--asset-available-bg);
+  --color-asset-pending: var(--asset-pending);
+  --color-asset-pending-bg: var(--asset-pending-bg);
+  --color-asset-broken: var(--asset-broken);
+  --color-asset-broken-bg: var(--asset-broken-bg);
 }
 
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.44 0.19 253.5);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.44 0.19 253.5);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.44 0.19 253.5);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -194,7 +194,7 @@ body {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.44 0.19 253.5);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -202,12 +202,24 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* 👇 Penyesuaian Kontras Warna Status Khusus Dark Mode */
+  --asset-available: oklch(0.75 0.15 152.1);
+  --asset-available-bg: oklch(0.22 0.04 152.1);
+  --asset-pending: oklch(0.78 0.12 50.0);
+  --asset-pending-bg: oklch(0.24 0.04 50.0);
+  --asset-broken: oklch(0.68 0.18 25.6);
+  --asset-broken-bg: oklch(0.22 0.05 25.6);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;}
+    @apply border-border outline-ring/50;
+  }
   body {
-    @apply bg-background text-foreground;}
+    @apply bg-background text-foreground;
+  }
   html {
-    @apply font-sans;}}
+    @apply font-sans;
+  }
+}

@@ -9,6 +9,7 @@ export type Asset = {
     PurchasedDate:string;
     Status:string;
     BrandId:string;
+    QuantityStock:number;
     CategoryId:string;
     Brand:Brand;
     Category:Category
@@ -22,6 +23,7 @@ export type AssetRequest = {
     serial_number:string;
     purchased_date:string;
     description:string;
+    quantity_stock:number;
     status:string;
     brand_id:string;
     category_id:string;
@@ -31,12 +33,13 @@ export type AssetQueryParams = {
   limit?: number;
   search?: string;
   order_by?: string;
+  status?:string;
 };
 
 
 export type AssetResponse = {
     status:number;
-    message:number;
+    message:string;
     data:{
         asset:Asset[] | Asset;
     } 
@@ -46,4 +49,15 @@ export type AssetResponse = {
         TotalData:number,
         TotalPage:number,
     } 
+}
+
+export type ResponseAssetOverview  ={
+    status:number;
+    message:string;
+    data :{
+        total_asset:number,
+        total_asset_assigned:number,
+        total_asset_available:number,
+        total_asset_retired:number,
+    }
 }
