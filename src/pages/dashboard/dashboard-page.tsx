@@ -1,9 +1,10 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getOverviewAssets } from "@/api/asset.api"; 
+import { getAnalyticsAssetDistributionCategory, getAnalyticsOverviewAsset } from "@/api/asset.api"; 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Laptop, Activity, ChartPie } from "lucide-react";
-import ChartPieSimple from "@/components/shared/charts";
+import { Clock, Laptop, Activity, ChartPie } from "lucide-react";
+import ChartPieSimple, { type PieChartDataItem } from "@/components/shared/charts";
+import type { ChartConfig } from "@/components/ui/chart";
 
 type ItemInfoCardProps = {
   TitleItem: string;
@@ -30,7 +31,7 @@ function CardContentWithInfoGraphic({
       <CardHeader className="flex flex-row items-center justify-between p-0 pb-6 border-b border-slate-100">
         <div className="flex items-center gap-2">
           {IconCard}
-                  <CardTitle className="text-md font-medium text-slate-800">{TitleCardz}</CardTitle>
+          <CardTitle className="text-md font-medium text-slate-800">{TitleCard}</CardTitle>
         </div>
         <Button variant="link" className="text-slate-500 hover:text-slate-800 text-sm p-0 h-auto font-medium">
           View All
@@ -64,20 +65,54 @@ function ItemInfoCard({ TitleItem, IconItem, ContentItem, ThemeColor }: ItemInfo
 }
 
 export default function DashboardPage() {
-  const { data, isPending, isError } = useQuery({
+  const { 
+    data: dataAnalyticsOverview, 
+    isPending: isAnalyticsOverviewPending, 
+    isError: isAnalyticsOverviewError 
+  } = useQuery({
     queryKey: ["asset-overview"],
-    queryFn: getOverviewAssets, 
+    queryFn: getAnalyticsOverviewAsset, 
     placeholderData: keepPreviousData,
   });
-  
-  const { dataGraphics, isPending, isError } = useQuery({
-    queryKey: ["asset-graphic"],
-    queryFn: getOverviewAssets, 
-    placeholderData: keepPreviousData,
-  });
-  
-  const dashboardData = data?.data;
 
+  const { 
+    data: dataAnalyticAssetDistributionCategory, 
+    isPending: isDataAnalyticAssetDistributionCategoryPending,
+    isError: isDataAnalyticAssetDistributionCategoryError      
+  } = useQuery({
+    queryKey: ["asset-graphic"],
+    queryFn: getAnalyticsAssetDistributionCategory, 
+    placeholderData: keepPreviousData,
+  });
+
+  const dataAnalyticDashboardAssetDistributionCategory = dataAnalyticAssetDistributionCategory?.data || [];
+  const dataAnalyticsDashboardOverview = dataAnalyticsOverview?.data;
+
+  // 💡 1. MAPPING DATA UNTUK CHARTPIESIMPLE secara dinamis
+  const chartData: PieChartDataItem[] = dataAnalyticDashboardAssetDistributionCategory.map(
+    (item: any, index: number) => ({
+      name: (item.category_name || "unknown").toLowerCase(),
+      value: Number(item.total_asset) || 0,
+      fill: `var(--chart-${(index % 5) + 1})`, // Menggunakan variasi warna CSS --chart-1 sampai --chart-5
+    })
+  );
+
+  // 💡 2. BUILDING CHARTCONFIG secara dinamis dari data kategori yang ada
+  const chartConfig: ChartConfig = {
+    value: {
+      label: "Total Asset",
+    },
+  };
+
+  dataAnalyticDashboardAssetDistributionCategory.forEach((item: any, index: number) => {
+    const key = (item.category_name || "unknown").toLowerCase();
+    chartConfig[key] = {
+      label: item.category_name || "Unknown",
+      color: `var(--chart-${(index % 5) + 1})`,
+    };
+  });
+
+  console.log(chartData,chartConfig)
   return (
     <div className="space-y-6 p-4 sm:p-6 bg-slate-50/50 min-h-screen">
       
@@ -90,13 +125,13 @@ export default function DashboardPage() {
       </div>
 
       {/* LOADING & ERROR STATES */}
-      {isPending && !data ? (
+      {isAnalyticsOverviewPending && !isAnalyticsOverviewError ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
             Loading dashboard overview...
           </p>
         </div>
-      ) : isError ? (
+      ) : isAnalyticsOverviewError ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-red-500">
             Error while fetching information...
@@ -109,28 +144,28 @@ export default function DashboardPage() {
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <ItemInfoCard
               TitleItem="Total Assets" 
-              ContentItem={dashboardData?.total_asset ?? "0"}
+              ContentItem={dataAnalyticsDashboardOverview?.total_asset ?? "0"}
               ThemeColor="text-blue-500"
               IconItem={<Laptop size={20} />}
             />
 
             <ItemInfoCard
               TitleItem="Available Assets"
-              ContentItem={dashboardData?.total_asset_available ?? "0"}
+              ContentItem={dataAnalyticsDashboardOverview?.total_asset_available ?? "0"}
               ThemeColor="text-green-500"
               IconItem={<Laptop size={20} />}
             />
 
             <ItemInfoCard
               TitleItem="Assigned Assets"
-              ContentItem={dashboardData?.total_asset_assigned ?? "0"}
+              ContentItem={dataAnalyticsDashboardOverview?.total_asset_assigned ?? "0"}
               ThemeColor="text-purple-500"
               IconItem={<Laptop size={20} />}
             />
 
             <ItemInfoCard
               TitleItem="Retired / Damaged"
-              ContentItem={dashboardData?.total_asset_retired ?? "0"}
+              ContentItem={dataAnalyticsDashboardOverview?.total_asset_retired ?? "0"}
               ThemeColor="text-red-500"
               IconItem={<Laptop size={20} />}
             />
@@ -146,10 +181,23 @@ export default function DashboardPage() {
                   <ChartPie className="text-blue-500" size={20} />
                   <CardTitle className="text-md font-medium text-slate-800">Asset Distribution by Category</CardTitle>
                 </div>
-
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center min-h-[250px] pt-4">
-                <ChartPieSimple />
+                {isDataAnalyticAssetDistributionCategoryPending ? (
+                  <p className="text-sm text-muted-foreground animate-pulse">Loading chart data...</p>
+                ) : isDataAnalyticAssetDistributionCategoryError ? (
+                  <p className="text-sm text-red-500">Failed to load chart configuration.</p>
+                ) : chartData.length > 0 ? (
+                  /* 💡 IMPLEMENTASI CHART DENGAN DATA DAN CONFIG DINAMIS */
+                  <ChartPieSimple 
+                    chartData={chartData} 
+                    chartConfig={chartConfig} 
+                    dataKey="value" 
+                    nameKey="name" 
+                  />
+                ) : (
+                  <p className="text-xs text-muted-foreground text-center">No asset category distribution available</p>
+                )}
               </CardContent>
             </Card>
 

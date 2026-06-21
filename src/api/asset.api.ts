@@ -1,5 +1,5 @@
 import api from "@/api/axios";
-import type { AssetQueryParams, AssetRequest,AssetResponse, ResponseAssetOverview } from "@/types/asset";
+import type { AssetQueryParams, AssetRequest,AssetResponse, ResponseAssetCategoryDistribution, ResponseAssetOverview } from "@/types/asset";
 
 export async function getAllAssetsWithQueryParams(params: AssetQueryParams) {
   const response = await api.get<AssetResponse>("/assets", {params});
@@ -37,11 +37,11 @@ export async function getAllAssetsData(){
     return response.data
 }
 
-export async function getOverviewAssets(){
-    const response = await api.get<ResponseAssetOverview>("/assets/overview")
+export async function getAnalyticsOverviewAsset(){
+    const response = await api.get<ResponseAssetOverview>("/assets/analytics")
     return response.data
 }
-export async function getGraphicAsset(){
-    const response = await api.get<ResponseAssetOverview>("/assets/graphic")
+export async function getAnalyticsAssetDistributionCategory(){
+    const response = await api.get<ResponseAssetCategoryDistribution>("/assets/analytics/category-distribution")
     return response.data
 }

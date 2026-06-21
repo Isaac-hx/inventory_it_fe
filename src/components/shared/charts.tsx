@@ -32,7 +32,7 @@ export default function ChartPieSimple({
     <div className="w-full">
       <ChartContainer
         config={chartConfig}
-        className="mx-auto aspect-square max-h-[250px] w-full"
+        className="mx-auto aspect-square max-h-[300px] w-full"
       >
         <PieChart>
           <ChartTooltip
@@ -43,8 +43,6 @@ export default function ChartPieSimple({
             data={chartData} 
             dataKey={dataKey} 
             nameKey={nameKey} 
-            innerRadius={60} // Membuatnya menjadi Donut Chart yang elegan
-            strokeWidth={5}
           />
           <ChartLegend
             content={<ChartLegendContent nameKey={nameKey} />}

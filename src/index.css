@@ -69,11 +69,20 @@ body {
 
   --ring: oklch(0.708 0 0);
 
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+/* Chart 1: Biru Muda Cerah (Aksen Utama / Nilai Tertinggi) */
+  --chart-1: oklch(0.75 0.14 240.0);
+
+  /* Chart 2: Biru Safir Dasar Anda (Warna Jangkar) */
+  --chart-2: oklch(0.44 0.19 253.5);
+
+  /* Chart 3: Teal / Sian Gelap Ringan */
+  --chart-3: oklch(0.62 0.16 215.0);
+
+  /* Chart 4: Indigo / Biru Ungu Dalam */
+  --chart-4: oklch(0.51 0.17 275.0);
+
+  /* Chart 5: Biru Pastel Lembut (Untuk Kategori 'Other' atau Nilai Terkecil) */
+  --chart-5: oklch(0.85 0.08 230.0);
 
   --radius: 0.625rem;
 

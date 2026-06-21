@@ -51,6 +51,8 @@ export type AssetResponse = {
     } 
 }
 
+
+
 export type ResponseAssetOverview  ={
     status:number;
     message:string;
@@ -59,5 +61,14 @@ export type ResponseAssetOverview  ={
         total_asset_assigned:number,
         total_asset_available:number,
         total_asset_retired:number,
+    }
+}
+
+export type ResponseAssetCategoryDistribution={
+    status:number;
+    message:string;
+    data:{
+        category_name:string;
+        total_asset:number;
     }
 }
