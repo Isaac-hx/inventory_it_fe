@@ -1,7 +1,7 @@
 // @/components/brand-action-cell.tsx (atau nama file komponen kamu)
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
-import { Pencil, Eye, MoreVertical, Trash } from "lucide-react";
+import { Pencil, Eye, MoreVertical, Trash, Play, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import DetailMaintenanceSheet from "./detail-maintenance-slider";
@@ -24,9 +24,7 @@ export default function MaintenanceActionCell({ maintenance }: { maintenance: Ma
             <MoreVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-
         <DropdownMenuContent align="end">
-          {/* Sifat bawaan Radix UI akan menutup DropdownMenu saat item diklik */}
           <DropdownMenuItem
           onClick={(e) => {
               e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
@@ -35,7 +33,34 @@ export default function MaintenanceActionCell({ maintenance }: { maintenance: Ma
             <Eye className="mr-2 h-4 w-4" />
             View
           </DropdownMenuItem>
-
+        <DropdownMenuSeparator/>
+          <DropdownMenuItem           onClick={(e) => {
+              e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
+              setUpdateOpen(true);
+            }}>
+            <Play className="mr-2 h-4 w-4"
+            ></Play>
+            Start
+          </DropdownMenuItem>
+          <DropdownMenuItem           
+          onClick={(e) => {
+              e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
+              setUpdateOpen(true);
+            }}>
+            <Check className="mr-2 h-4 w-4"
+            ></Check>
+            Completed
+          </DropdownMenuItem>
+          <DropdownMenuItem           
+          onClick={(e) => {
+              e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
+              setUpdateOpen(true);
+            }}>
+            <X className="mr-2 h-4 w-4"
+            ></X>
+            Cancel
+          </DropdownMenuItem>
+          <DropdownMenuSeparator/>
           <DropdownMenuItem           onClick={(e) => {
               e.preventDefault(); // <-- Terapkan juga di delete jika nanti delete-nya flicker
               setUpdateOpen(true);
