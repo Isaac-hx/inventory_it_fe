@@ -45,7 +45,7 @@ export default function DetailPageUser() {
       {!isLoading && user && (
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header Navigation */}
-          <div className="rounded-2xl border bg-white p-4 shadow-sm md:p-5">
+          <div className="rounded-md border bg-white p-4 shadow-sm md:p-5">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-4">
                 <button
