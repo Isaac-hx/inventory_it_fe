@@ -12,21 +12,22 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import UpdateAssetSheet from "./update-asset-slider";
 import { StatusBadge } from "@/components/shared/asset-status";
+import { getAssignmentById } from "@/api/asset_assignment";
 
-export default function DetailPageAsset() {
-  const { asset_id } = useParams();
+export default function DetailAssignmentPage() {
+  const { assignment_id } = useParams();
   const navigate = useNavigate();
 
   const [editOpen, setEditOpen] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["asset-detail", asset_id],
-    queryFn: () => getAssetById(asset_id || ""),
-    enabled: !!asset_id,
+    queryKey: ["assignment-detail", assignment_id],
+    queryFn: () => getAssignmentById(assignment_id || ""),
+    enabled: !!assignment_id,
   });
 
-  const rawAssetData = data?.data;
-  const asset = Array.isArray(rawAssetData) ? rawAssetData[0] : rawAssetData;
+  const rawAssignmentData = data?.data;
+  const assignment = Array.isArray(rawAssignmentData) ? rawAssignmentData[0] : rawAssignmentData;
 
 
 
@@ -39,7 +40,7 @@ export default function DetailPageAsset() {
       )}
 
       {isError && (
-        <p className="text-center text-sm text-red-500">
+        <p className="text-center text-sm text-red-500">Owner history
           Failed to load asset detail.
         </p>
       )}

@@ -45,7 +45,7 @@ export default function DetailPageUser() {
       {!isLoading && user && (
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header Navigation */}
-          <div className="rounded-2xl border bg-white p-4 shadow-sm md:p-5">
+          <div className="rounded-md border bg-white p-4 shadow-sm md:p-5">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-4">
                 <button
@@ -61,7 +61,7 @@ export default function DetailPageUser() {
                   </div>
 
                   <div className="min-w-0">
-                    <h1 className="truncate text-lg font-semibold text-slate-900 md:text-xl">
+                    <h1 className="truncate text-sm font-semibold text-primary md:text-xl">
                       {user.Username || user.username || "-"}
                     </h1>
                     <p className="truncate text-sm text-slate-500 md:text-base">
@@ -83,10 +83,10 @@ export default function DetailPageUser() {
 
           {/* Content Information */}
           <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
-            <Card className="rounded-2xl shadow-sm">
+            <Card className="rounded-md shadow-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-bold md:text-lg">
-                  <User className="text-gray-700" size={20} />
+                <CardTitle className="flex items-center gap-2 text-primary font-bold md:text-md">
+                  <User className="text-primary" size={20} />
                   User Information
                 </CardTitle>
               </CardHeader>
@@ -103,10 +103,10 @@ export default function DetailPageUser() {
               </CardContent>
             </Card>
             {/* Card information department */}
-            <Card className="h-fit rounded-2xl shadow-sm">
+            <Card className="h-fit rounded-md shadow-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-bold md:text-lg">
-                  <Building className="text-gray-700" size={20} />
+                <CardTitle className="flex items-center gap-2 text-primary font-bold md:text-md">
+                  <Building className="text-primary" size={20} />
                   Department Information
                 </CardTitle>
               </CardHeader>
@@ -143,11 +143,11 @@ function InfoItem({
   value: string;
 }) {
   return (
-    <div className="min-w-0 rounded-xl bg-slate-50 p-4">
+    <div className="min-w-0 rounded-md  p-4">
       <p className="text-xs font-medium text-slate-500 md:text-sm">
         {label}
       </p>
-      <p className="mt-1 break-words text-sm font-semibold text-slate-900 md:text-base">
+      <p className="mt-1 break-words text-sm font-semibold text-slate-900 md:text-sm">
         {value}
       </p>
     </div>

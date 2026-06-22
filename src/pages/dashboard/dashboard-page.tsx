@@ -57,7 +57,7 @@ function ItemInfoCard({ TitleItem, IconItem, ContentItem, ThemeColor }: ItemInfo
       <CardContent className="pt-2">
         <div className={`text-3xl sm:text-4xl font-bold ${ThemeColor}`}>{ContentItem}</div>
         <button className="text-xs text-slate-400 font-medium hover:text-slate-600 mt-4 flex items-center justify-start gap-1 transition-colors">
-          View all {TitleItem} <span className="text-[10px]">➔</span>
+          View all <span className="text-[10px]">➔</span>
         </button>
       </CardContent>
     </Card>
