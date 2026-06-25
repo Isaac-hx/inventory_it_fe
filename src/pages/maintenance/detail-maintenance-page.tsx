@@ -9,29 +9,29 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Edit, Package, Layers, Calendar,Info } from "lucide-react";
+import { ArrowLeft, Edit, Package, Layers, Calendar,Info, Wrench } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { StatusBadge } from "@/components/shared/asset-status";
-import { getAssignmentById } from "@/api/asset_assignment";
-import UpdateAssignmentSheet from "./update-assignment-slider";
+  import { getMaintenanceById } from "@/api/maintenance.api";
+import UpdateMaintenanceSheet from "./update-maintenance-slider";
 
-export default function DetailPageAssignment() {
-  const { assignment_id } = useParams();
-  console.log(assignment_id)
+export default function DetailPageMaintenance() {
+  const { maintenance_id } = useParams();
+  console.log(maintenance_id)
   const navigate = useNavigate();
 
   const [editOpen, setEditOpen] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["assignment-detail", assignment_id],
-    queryFn: () => getAssignmentById(assignment_id || ""),
-    enabled: !!assignment_id,
+    queryKey: ["maintenance-detail", maintenance_id],
+    queryFn: () => getMaintenanceById(maintenance_id || ""),
+    enabled: !!maintenance_id,
   });
 
-  const rawAssignmentData = data?.data;
-  const assignment = Array.isArray(rawAssignmentData) ? rawAssignmentData[0] : rawAssignmentData;
-  console.log(assignment)
+  const rawMaintenanceData = data?.data;
+  const maintenance = Array.isArray(rawMaintenanceData) ? rawMaintenanceData[0] : rawMaintenanceData;
+  console.log(maintenance)
 
 
   return (
@@ -39,17 +39,17 @@ export default function DetailPageAssignment() {
     <div className="min-h-screen bg-slate-50 px-4 py-6 md:px-8">
       {isLoading && (
         <p className="text-center text-sm text-muted-foreground animate-pulse">
-          Loading assignment detail...
+          Loading maintenance detail...
         </p>
       )}
 
       {isError && (
         <p className="text-center text-sm text-red-500">Owner history
-          Failed to load assignment detail.
+          Failed to load maintenance detail.
         </p>
       )}
 
-      {!isLoading && assignment && (
+      {!isLoading && maintenance && (
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header Navigation */}
           <div className="rounded-md border bg-white p-4 shadow-sm md:p-5">
@@ -69,14 +69,14 @@ export default function DetailPageAssignment() {
 
                   <div className="min-w-0">
                     <h1 className="truncate text-sm font-semibold text-primary md:text-xl">
-                      {assignment.AssetName || assignment.asset_name || "-"}
+                      {maintenance.AssetName || maintenance.asset_name || "-"}
                     </h1>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-xs text-slate-500">
-                         {assignment.CategoryName } • {assignment.BrandName}
+                         {maintenance.SerialNumber}
                       </span>
                     </div>
-                    {<StatusBadge status={assignment.Status}/>}
+                    {<StatusBadge status={maintenance.Status}/>}
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function DetailPageAssignment() {
                 className="w-full gap-2 rounded-lg md:w-auto"
               >
                 <Edit size={18} />
-                Edit Assignment
+                Edit maintenance
               </Button>
             </div>
           </div>
@@ -109,16 +109,11 @@ export default function DetailPageAssignment() {
 
               <CardContent className="space-y-4 p-4 pt-0 md:p-6 md:pt-0">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <InfoItem label="Asset ID" value={assignment.AssetId || assignment.asset_id ||   "-"} />
-                  <InfoItem label="Asset Name" value={assignment.AssetName || assignment.asset_name || "-"} />
-                  <InfoItem label="Asset Name" value={assignment.Processor || assignment.processor || "-"} />
-                  <InfoItem label="Asset Name" value={assignment.Ram || assignment.ram || "-"} />
-                  <InfoItem label="Asset Name" value={assignment.Storage || assignment.storage || "-"} />
-                  <InfoItem label="Serial Number" value={assignment.SerialNumber || assignment.serial_number || "-"} />
-                  <InfoItem label="Quantity Stock" value={String(assignment.QuantityStock ?? assignment.quantity_stock ?? "0")} />
-                  <InfoItem label="Status" value={assignment.Status || assignment.status || "-"} className="capitalize" />
-                  <InfoItem label="Brand" value={assignment.BrandName || assignment.BrandName || "-"} className="capitalize" />
-                  <InfoItem label="Category" value={assignment.CategoryName || assignment.CategoryName || "-"} className="capitalize" />
+                  <InfoItem label="Asset Name" value={maintenance.AssetName || maintenance.asset_name || "-"} />
+                  <InfoItem label="Serial Number" value={maintenance.SerialNumber || maintenance.serial_number || "-"} />
+                  <InfoItem label="Status" value={maintenance.Status || maintenance.status || "-"} className="capitalize" />
+                  <InfoItem label="Brand" value={maintenance.BrandName || maintenance.BrandName || "-"} className="capitalize" />
+                  <InfoItem label="Category" value={maintenance.CategoryName || maintenance.CategoryName || "-"} className="capitalize" />
                 </div>
                 
               </CardContent>
@@ -127,7 +122,7 @@ export default function DetailPageAssignment() {
                   <Info size={20} className="text-primary"/>
                   <p>
                     {
-                      assignment.Notes
+                      maintenance.Notes
                     }
                   </p>
                 </div>
@@ -140,17 +135,13 @@ export default function DetailPageAssignment() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-bold md:text-sm">
                     <Layers className="text-primary" size={20} />
-                    User Information
+                    Problem Description
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4 p-4 pt-0 md:p-6 md:pt-0">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <InfoItem label="User ID" value={assignment.AssignedToId || assignment.AssignedToId || "-"} />
-                    <InfoItem label="Username" value={assignment.AssignedToUsername || assignment.AssignedToUsername || "-"} />
-                    <InfoItem label="Email" value={assignment.AssignedToEmail || assignment.AssignedToEmail || "-"} />
-                    <InfoItem label="Department Name" value={assignment.DepartmentName || assignment.AssignedToEmail || "-"} />
-
+                    <InfoItem label="Description" value={maintenance.Description || maintenance.Description || "-"} />
   
                   </div>
 
@@ -161,17 +152,17 @@ export default function DetailPageAssignment() {
               <Card className="rounded-md shadow-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2  font-bold md:text-sm">
-                    <Calendar className="text-primary" size={20} />
-                    History & Tracking
+                    <Wrench className="text-primary" size={20} />
+                    Maintenance Information
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4 p-4 pt-0 md:p-6 md:pt-0">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <InfoItem label="Purchased Date" value={assignment.PurchasedDate || assignment.purchased_date || "-"} />
-                    <InfoItem label="Returned Date" value={assignment.ReturnDate || assignment.ReturnDate || "-"} />
-                    <InfoItem label="Registered At" value={assignment.CreatedAt || assignment.created_at || "-"} />
-                    <InfoItem label="Last Updated Data" value={assignment.UpdatedAt || assignment.updated_at || "-"} />
+                    <InfoItem label="Maintenance ID" value={maintenance.MaintenanceId || maintenance.MaintenanceId || "-"} />
+                    <InfoItem label="Maintenance At " value={maintenance.MaintenanceAt || maintenance.MaintenanceAt || "-"} />
+                    <InfoItem label="Status" value={maintenance.Status || maintenance.status || "-"} />
+                    <InfoItem label="Completed At" value={maintenance.CompletedAt || maintenance.CompletedAt || "-"} />
 
                   </div>
                 </CardContent>
@@ -183,13 +174,13 @@ export default function DetailPageAssignment() {
       )}
 
       {/* Sheet untuk Update Slider */}
-      <UpdateAssignmentSheet
+      <UpdateMaintenanceSheet
         open={editOpen}
         onOpenChange={setEditOpen}
-        assignmentId={assignment_id || ""}
+        maintenanceId={maintenance_id || ""}
       />
 
-      {!isLoading && !assignment && !isError && (
+      {!isLoading && !maintenance && !isError && (
         <p className="text-center text-sm text-muted-foreground">
           No asset data available.
         </p>

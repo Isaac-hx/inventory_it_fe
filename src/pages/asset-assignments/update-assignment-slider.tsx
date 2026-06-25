@@ -126,7 +126,6 @@ export default function UpdateAssignmentSheet({
       ...values,
       return_date: values.return_date === "" ? null : values.return_date,
     };
-    console.log(values)
     mutation.mutate(payload as any);
   };
 
@@ -265,7 +264,7 @@ export default function UpdateAssignmentSheet({
                   <Input
                     id="return_date"
                     type="date"
-                    disabled={mutation.isPending}
+                    disabled={assignment.ReturnDate ? true:false}
                     {...register("return_date")}
                   />
                 </div>

@@ -25,9 +25,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
-import { getAllAssets } from "@/api/asset.api";        
+import { getAllAssets, getAllAssetsWithQueryParams } from "@/api/asset.api";        
 import { createMaintenance } from "@/api/maintenance.api";
 import type { MaintenanceRequest } from "@/types/maintenance";
+import { FormatDate } from "@/components/shared/format-date";
 
 export default function CreateMaintenanceSheet() {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function CreateMaintenanceSheet() {
   // 1. Fetch data assets untuk pilihan dropdown pencatatan maintenance
   const { data: assetsData, isPending: isAssetPending } = useQuery({
     queryKey: ["assets", "all"],
-    queryFn: getAllAssets,
+    queryFn: ()=>getAllAssetsWithQueryParams({status:"available"}),
     enabled: open,
   });
 
@@ -76,11 +77,13 @@ export default function CreateMaintenanceSheet() {
 
   const onSubmit = (values: MaintenanceRequest) => {
     // Memastikan nilai cost dikirim sebagai tipe data Number, bukan String dari input
-    const payload = {
-      ...values,
-      cost: Number(values.cost),
-    };
-    mutation.mutate(payload);
+
+
+    values.cost = Number(values.cost)
+    values.maintenance_at = FormatDate(values.maintenance_at)
+    console.log(values)
+
+    mutation.mutate(values);
   };
 
   return (

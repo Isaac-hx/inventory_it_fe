@@ -70,7 +70,7 @@ export default function UpdateDepartmentDialog({
     onSuccess: () => {
       toast.success("Department has been created sucessfully")
   
-      queryClient.invalidateQueries({ queryKey: ["department"] });
+      queryClient.invalidateQueries({ queryKey: ["departments"] },);
       queryClient.invalidateQueries({ queryKey: ["department-detail", departmentId] });
       onOpenChange(false);
     },
@@ -151,7 +151,7 @@ export default function UpdateDepartmentDialog({
                     Created At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(department.CreatedAt).toLocaleDateString()}
+                    {department.CreatedAt}
                   </p>
                 </div>
 
@@ -160,7 +160,7 @@ export default function UpdateDepartmentDialog({
                     Updated At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(department.UpdatedAt).toLocaleDateString()}
+                    {department.UpdatedAt}
                   </p>
                 </div>
               </div>

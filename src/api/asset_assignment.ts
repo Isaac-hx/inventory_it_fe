@@ -35,3 +35,7 @@ export async function getAllAssignmentsData(){
     const response = await api.get<AssignmentResponse>("/all-asset-assignments")
     return response.data
 }
+export async function updateAssignmentStatusById(assignmentId:string,payload:AssignmentRequest){
+    const response = await api.put<AssignmentResponse>(`/asset-assignments/status/${assignmentId}`,payload)
+    return response.data
+}

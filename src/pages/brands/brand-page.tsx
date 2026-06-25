@@ -9,7 +9,7 @@ import CreateBrandDialog from "./create-brand-dialog";
 import { FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
-
+import { Card } from "@/components/ui/card";
 const brandColumnDef = [
   {header:"Brand ID",key:"BrandId",width:15},
   {header:"Brand Name",key:"BrandName",width:15},
@@ -63,6 +63,7 @@ export default function BrandPage() {
         Jika data benar-benar kosong (loading pertama kali aplikasi dibuka), 
         tampilkan skeleton/text loading biasa agar halaman tidak kosong melompong.
       */}
+      <Card className="p-4">
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -96,6 +97,7 @@ export default function BrandPage() {
           onPageChange={setPage}
         />
       )}
+    </Card>
     </div>
   );
 }

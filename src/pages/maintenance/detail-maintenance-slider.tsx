@@ -131,7 +131,7 @@ export default function DetailMaintenanceSheet({
                     Schedule Repair Date
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
-                    {formatDate(maintenance.maintenance_at || maintenance.MaintenanceAt)}
+                    {maintenance.maintenance_at || maintenance.MaintenanceAt || "-"}
                   </p>
                 </div>
 
@@ -142,7 +142,7 @@ export default function DetailMaintenanceSheet({
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
                     {maintenance.completed_at || maintenance.CompletedAt
-                      ? formatDate(maintenance.completed_at || maintenance.CompletedAt)
+                      ? (maintenance.completed_at || maintenance.CompletedAt)
                       : "-"
                     }
                   </p>

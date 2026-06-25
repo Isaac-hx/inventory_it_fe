@@ -1,4 +1,3 @@
-"use client";
 
 import { DataTable } from "@/components/tables/data-table";
 import { userColumns } from "./columns";
@@ -10,6 +9,7 @@ import { getAllUsersData, getAllUsersWithQueryParams } from "@/api/user.api";
 import { Button } from "@/components/ui/button";
 import { FileSpreadsheet } from "lucide-react";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
+import { Card } from "@/components/ui/card";
 
 
 const userColumnDef = [
@@ -28,23 +28,30 @@ export default function UserPage() {
   const [limit] = useState(10);
   const [search, setSearch] = useState("");
   const [orderBy, setOrderBy] = useState<"asc" | "desc">("asc");
-  
+  const [role,setRole] = useState("")
   // Debounce 1000ms (1 detik) setelah user berhenti mengetik
   const debouncedSearch = useDebounce(search, 1000);
 
   const { data, isPending } = useQuery({
     // 👇 1. KUNCI UTAMA: Gunakan 'debouncedSearch' di sini, JANGAN 'search' murni
-    queryKey: ["users", page, limit, debouncedSearch, orderBy],
+    queryKey: ["users", page, limit, debouncedSearch, orderBy,role],
     queryFn: () =>
       getAllUsersWithQueryParams({
         page,
         limit,
         search: debouncedSearch,
         order_by: orderBy,
+        role:role || undefined,
       }),
     // 2. Mempertahankan data lama di layar saat transisi queryKey baru berjalan
     placeholderData: keepPreviousData,
   });
+
+const menuItems = [
+    { key: "admin_it", value: "Admin IT" },
+    { key: "user", value: "User" },
+    { key: "superuser", value: "Superuser" },
+  ]
 
   return (
     <div className="space-y-6">
@@ -69,6 +76,7 @@ export default function UserPage() {
         Jika data benar-benar kosong (loading pertama kali aplikasi dibuka), 
         tampilkan skeleton/text loading biasa agar halaman tidak kosong melompong.
       */}
+      <Card className="p-4">
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -95,6 +103,13 @@ export default function UserPage() {
             { label: "A-Z", value: "asc" },
             { label: "Z-A", value: "desc" },
           ]}
+          
+          //filter
+          menuValue={role}
+          onChangeValueMenu={setRole}
+          defaultValueButton="Role"
+          menuItem={menuItems}
+
           page={data?.meta?.Page ?? page}
           limit={data?.meta?.Limit ?? limit}
           totalData={data?.meta?.TotalData ?? 0}
@@ -102,6 +117,7 @@ export default function UserPage() {
           onPageChange={setPage}
         />
       )}
+    </Card>
     </div>
   );
 }

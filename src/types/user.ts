@@ -14,6 +14,7 @@ export type UserQueryParams = {
   limit?: number;
   search?: string;
   order_by?: string;
+  role?:string;
 };
 
 export type UserRequest = {

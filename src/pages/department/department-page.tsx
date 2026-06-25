@@ -4,7 +4,7 @@ import { DataTable } from "@/components/tables/data-table";
 import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
-import CreateBrandDialog from "./create-department-dialog";
+
 import { getAllDepartments, getAllDepartmentsWithQueryParams } from "@/api/department.api";
 import { departmentColumns } from "./columns";
 
@@ -12,6 +12,7 @@ import { FileSpreadsheet } from "lucide-react";
 import CreateDepartmentDialog from "./create-department-dialog";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 const departmenColumnDef = [
   {header:"Department Id",key:"DepartmentId",width:15},
   {header:"Deparment Name",key:"DepartmentName",width:15},
@@ -63,6 +64,7 @@ export default function DepartmentPage() {
         Jika data benar-benar kosong (loading pertama kali aplikasi dibuka), 
         tampilkan skeleton/text loading biasa agar halaman tidak kosong melompong.
       */}
+      <Card className="p-4">
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -96,6 +98,7 @@ export default function DepartmentPage() {
           onPageChange={setPage}
         />
       )}
+  </Card>
     </div>
   );
 }

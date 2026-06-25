@@ -65,6 +65,9 @@ export default function CreateAssetDialog() {
       description:"",
       status: "available",
       quantity_stock:1,
+      processor:"",
+      storage:"",
+      ram:"",
     },
   });
 
@@ -87,6 +90,9 @@ export default function CreateAssetDialog() {
 
   const onSubmit = (values: AssetRequest) => {
     values.purchased_date = FormatDate(values.purchased_date)
+    values.quantity_stock = Number(values.quantity_stock || 1)
+    
+    console.log(values)
     mutation.mutate(values);
   };
 
@@ -120,7 +126,45 @@ export default function CreateAssetDialog() {
                 <p className="text-xs font-medium text-red-500">{errors.asset_name.message}</p>
               )}
             </div>
-
+            {/* Processor */}
+            <div className="space-y-1">
+              <Label htmlFor="processor">Processor specification</Label>
+              <Input
+                id="processor"
+                placeholder="Optional Example: 12th Gen Intel(R) Core(TM) i5-12400F"
+                disabled={mutation.isPending}
+                {...register("processor")}
+              />
+              {errors.processor && (
+                <p className="text-xs font-medium text-red-500">{errors.processor.message}</p>
+              )}
+            </div>
+            {/* Ram Detail */}
+            <div className="space-y-1">
+              <Label htmlFor="ram">Ram specification</Label>
+              <Input
+                id="ram"
+                placeholder="Field Optional, Example : 4GB "
+                disabled={mutation.isPending}
+                {...register("ram")}
+              />
+              {errors.ram && (
+                <p className="text-xs font-medium text-red-500">{errors.ram.message}</p>
+              )}
+            </div>
+            {/* Storage Detail */}
+            <div className="space-y-1">
+              <Label htmlFor="ram">Storage specification</Label>
+              <Input
+                id="storage"
+                placeholder="Field Optional, Example : 1TB "
+                disabled={mutation.isPending}
+                {...register("storage")}
+              />
+              {errors.storage && (
+                <p className="text-xs font-medium text-red-500">{errors.storage.message}</p>
+              )}
+            </div>
             {/* Serial Number */}
             <div className="space-y-1">
               <Label htmlFor="serial_number">Serial Number</Label>
@@ -142,6 +186,7 @@ export default function CreateAssetDialog() {
               <Input
                 id="quantity_stock"
                 placeholder="Quantity stock"
+                type="number"
                 disabled={mutation.isPending}
                 {...register("quantity_stock", {
                   required: "Quantity stock is required",

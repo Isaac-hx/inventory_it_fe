@@ -10,6 +10,7 @@ import { categoryColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { FileSpreadsheet } from "lucide-react";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
+import { Card } from "@/components/ui/card";
 
 
 const categoryColumnDef = [
@@ -65,6 +66,7 @@ export default function CategoryPage() {
         Jika data benar-benar kosong (loading pertama kali aplikasi dibuka), 
         tampilkan skeleton/text loading biasa agar halaman tidak kosong melompong.
       */}
+      <Card className="p-4">
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -98,6 +100,7 @@ export default function CategoryPage() {
           onPageChange={setPage}
         />
       )}
+    </Card>
     </div>
   );
 }

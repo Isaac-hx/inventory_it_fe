@@ -11,6 +11,7 @@ import { assignmentColumns } from "./columns";
 import { FileSpreadsheet } from "lucide-react";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 
 const assignmentColumnDef = [
@@ -47,22 +48,29 @@ export default function AssignmentPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [orderBy, setOrderBy] = useState<string>("created_at_desc");
-
+  const [status,setStatus] = useState("")
   // Debounce search agar backend tidak terbebani setiap ketikan huruf
   const debouncedSearch = useDebounce(search, 1000);
 
   // Fetch data list asset assignments dengan parameter lengkap
   const { data, isPending } = useQuery({
-    queryKey: ["asset-assignments", page, limit, debouncedSearch, statusFilter, orderBy],
+    queryKey: ["asset-assignments", page, limit, debouncedSearch, statusFilter, orderBy,status],
     queryFn: () =>
       getAllAssignmentsWithQueryParams({
         page,
         limit,
         search: debouncedSearch,
         order_by: orderBy,
+        status:status,
       }),
     placeholderData: keepPreviousData, // Menjaga tabel tidak kedip/blank saat mengetik
   });
+const menuItems = [
+    { key: "assigned", value: "Assigned" },
+    { key: "returned", value: "Returned" },
+    { key: "damaged", value: "Damaged" },
+    { key: "lost", value: "Lost" },
+  ]
     return (
     <div className="space-y-6">
       {/* Header Bagian Atas */}
@@ -88,6 +96,8 @@ export default function AssignmentPage() {
       </div>
 
       {/* Indikator Loading Awal Skenario Pertama */}
+      <Card className="p-4">
+
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -113,14 +123,10 @@ export default function AssignmentPage() {
             setStatusFilter(value);
             setPage(1); // Reset halaman ke 1 saat filter diubah
           }}
-          filterOptions={[
-            { label: "All Statuses", value: "all" },
-            { label: "Assigned (Active)", value: "assigned" },
-            { label: "Returned", value: "returned" },
-            { label: "Damaged", value: "damaged" },
-            { label: "Lost", value: "lost" },
-          ]}
-
+          menuValue={status}
+          onChangeValueMenu={setStatus}
+          defaultValueButton="Status"
+          menuItem={menuItems}
           // Sinkronisasi Metadata Pagination dari Go Backend Backend (`meta` struct)
           page={data?.meta?.Page ?? page}
           limit={data?.meta?.Limit ?? limit}
@@ -129,6 +135,8 @@ export default function AssignmentPage() {
           onPageChange={setPage}
         />
       )}
+          </Card>
+
     </div>
   );
 }

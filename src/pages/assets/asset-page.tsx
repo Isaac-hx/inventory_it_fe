@@ -9,6 +9,7 @@ import { assetColumns } from "./columns";
 import { Button } from "@/components/ui/button";
 import { exportToExcel } from "@/components/shared/convert-to-excel";
 import { FileSpreadsheet } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 const assetColumnDef = [
   {header:"Asset ID",key:"AssetId",width:15},
@@ -31,24 +32,30 @@ export default function AssetPage() {
   const [limit] = useState(10);
   const [search, setSearch] = useState("");
   const [orderBy, setOrderBy] = useState<"asc" | "desc">("asc");
-  
+  const [status,setStatus] = useState("")
   // Debounce 1000ms (1 detik) setelah user berhenti mengetik
   const debouncedSearch = useDebounce(search, 1000);
 
   const { data, isPending } = useQuery({
     // 👇 1. KUNCI UTAMA: Gunakan 'debouncedSearch' di sini, JANGAN 'search' murni
-    queryKey: ["assets", page, limit, debouncedSearch, orderBy],
+    queryKey: ["assets", page, limit, debouncedSearch, orderBy,status],
     queryFn: () =>
       getAllAssetsWithQueryParams({
         page,
         limit,
         search: debouncedSearch,
         order_by: orderBy,
+        status:status,
       }),
     // 2. Mempertahankan data lama di layar saat transisi queryKey baru berjalan
     placeholderData: keepPreviousData,
   });
-
+const menuItems = [
+    { key: "available", value: "Available" },
+    { key: "assigned", value: "assigned" },
+    { key: "maintenance", value: "Maintenance" },
+    { key: "retired", value: "Retired" },
+  ]
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -72,6 +79,7 @@ export default function AssetPage() {
         Jika data benar-benar kosong (loading pertama kali aplikasi dibuka), 
         tampilkan skeleton/text loading biasa agar halaman tidak kosong melompong.
       */}
+      <Card className="p-4">
       {isPending && !data ? (
         <div className="flex h-48 items-center justify-center rounded-sm border bg-white">
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -98,6 +106,12 @@ export default function AssetPage() {
             { label: "A-Z", value: "asc" },
             { label: "Z-A", value: "desc" },
           ]}
+
+          menuValue={status}
+          onChangeValueMenu={setStatus}
+          defaultValueButton="Status"
+          menuItem={menuItems}
+
           page={data?.meta?.Page ?? page}
           limit={data?.meta?.Limit ?? limit}
           totalData={data?.meta?.TotalData ?? 0}
@@ -105,6 +119,7 @@ export default function AssetPage() {
           onPageChange={setPage}
         />
       )}
+    </Card>
     </div>
   );
 }

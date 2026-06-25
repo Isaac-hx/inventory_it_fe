@@ -149,7 +149,7 @@ export default function UpdateCategoryDialog({
                     Created At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(category.CreatedAt).toLocaleDateString()}
+                    {category.CreatedAt}  
                   </p>
                 </div>
 
@@ -158,7 +158,7 @@ export default function UpdateCategoryDialog({
                     Updated At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(category.UpdatedAt).toLocaleDateString()}
+                    {category.UpdatedAt}
                   </p>
                 </div>
               </div>

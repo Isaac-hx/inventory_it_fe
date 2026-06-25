@@ -72,7 +72,7 @@ export default function CreateUserDialog() {
       setOpen(false);
     },
     onError: (error: any) => {
-      const errorMessage = error?.response?.data?.error || "Something went wrong.";
+      const errorMessage = error?.response?.data?.error || error?.response?.data?.message || "Something went wrong.";
       toast.error(`Failed to create user: ${errorMessage}`);
     },
   });

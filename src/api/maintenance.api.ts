@@ -16,6 +16,11 @@ export async function updateMaintenanceById(maintenanceId:string,payload:Mainten
     return response.data
 }
 
+export async function updateStatusMaintenanceById(maintenanceId:string,payload:MaintenanceRequest){
+    const response = await api.put<MaintenanceResponse>(`/maintenances/status/${maintenanceId}`,payload)
+    return response.data
+}
+
 export async function deleteMaintenanceById(maintenanceId:string){
     const response = await api.delete<MaintenanceResponse>(`/maintenances/${maintenanceId}`)
     return response.data

@@ -81,11 +81,11 @@ export const maintenanceColumns: ColumnDef<Maintenance>[] = [
         )
     },
     cell: ({ row }) => {
-      const mainteanceAt = row.getValue("MaintenanceAt") as string;
+      const maintenanceAt = row.getValue("MaintenanceAt") as string;
 
       return (
         <span className="">
-          {new Date(mainteanceAt).toLocaleDateString()}
+          {maintenanceAt}
 
         </span>
       );

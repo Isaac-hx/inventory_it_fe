@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import SelectFilter, { MenuFilter } from "../shared/filter";
 
 type FilterOption = {
   label: string;
@@ -43,6 +44,16 @@ type DataTableProps<TData, TValue> = {
   filterOptions?: FilterOption[];
   filterPlaceholder?: string;
 
+  roleValue?:string;
+  onRoleChange?:(value:string)=>void
+
+  //filter
+  defaultValueButton:string;
+  menuValue:string;
+  onChangeValueMenu:(value:string)=>void
+  menuItem:{key:string,value:string}[]
+  
+
   page: number;
   limit: number;
   totalData: number;
@@ -57,7 +68,14 @@ export function DataTable<TData, TValue>({
   searchValue = "",
   onSearchChange,
   searchPlaceholder = "Search...",
+  roleValue="",
+  onRoleChange,
 
+  //filter
+  defaultValueButton="select",
+  menuValue="",
+  onChangeValueMenu,
+  menuItem,
 
   page,
   totalData,
@@ -99,19 +117,31 @@ export function DataTable<TData, TValue>({
               />
             </div>
           )}
+          <div>
+            {
+              onChangeValueMenu &&            
+              <MenuFilter
+              menuValue={menuValue}
+              defaultValueButton={defaultValueButton}
+              onChangeMenuValue={onChangeValueMenu}
+              menuItem={menuItem}
+            />
+            }
 
+            {/* <SelectFilter onFilterChange={onRoleChange} selectedFilter={filterValue} selectName={filterValue} dataFilter={d}/> */}
+          </div>
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-sm border bg-white">
+      <div className="overflow-hidden border-none  bg-white">
         <Table>
-          <TableHeader className="bg-primary ">
+          <TableHeader >
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="">
+              <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="font-medium text-white "
+                    className="font-medium text-primary "
                   >
                     {header.isPlaceholder
                       ? null
@@ -128,7 +158,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row,index) => (
-                <TableRow className={`font-normal text-xs  ${index%2 == 0 ? "hover:bg-white/10":"bg-slate-50 hover:bg-slate-50/10"}`} key={row.id}>
+                <TableRow className={`font-normal text-xs   ${index%2 == 0 ? "hover:bg-white/10":" hover:bg-slate-50/10"}`} key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(

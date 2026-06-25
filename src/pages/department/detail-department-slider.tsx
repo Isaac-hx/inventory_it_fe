@@ -79,7 +79,7 @@ export default  function DetailDepartmentDialog({
                     Created At
                     </p>
                     <p className="mt-1 text-sm font-semibold">
-                    {new Date(department.CreatedAt).toLocaleDateString()}
+                    {department.CreatedAt}
                     </p>
                 </div>
 
@@ -88,7 +88,7 @@ export default  function DetailDepartmentDialog({
                     Updated At
                     </p>
                     <p className="mt-1 text-sm font-semibold">
-                    {new Date(department.UpdatedAt).toLocaleDateString()}
+                    {department.UpdatedAt}
                     </p>
                 </div>
                 </div>

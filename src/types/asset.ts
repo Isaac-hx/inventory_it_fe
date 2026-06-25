@@ -20,6 +20,9 @@ export type Asset = {
 
 export type AssetRequest = {
     asset_name:string;
+    processor?:string ;
+    ram ?:string ;
+    storage?: string;
     serial_number:string;
     purchased_date:string;
     description:string;

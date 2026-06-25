@@ -27,7 +27,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 import type { AssetRequest } from "@/types/asset";
-import { FormatDate } from "@/components/shared/format-date";
+import { FormatDate, formatToInputDate } from "@/components/shared/format-date";
 
 type UpdateAssetSheetProps = {
   open: boolean;
@@ -58,6 +58,9 @@ export default function UpdateAssetSheet({
       description: "",
       status: "available",
       quantity_stock:1,
+      processor: "",
+      ram:"",
+      storage:""
     },
   });
 
@@ -103,13 +106,16 @@ export default function UpdateAssetSheet({
         asset.Category?.CategoryId ||
         ""
       ),
-      purchased_date: FormatDate(
+      purchased_date: formatToInputDate(
         asset.purchased_date || asset.PurchasedDate
       ),
       serial_number: asset.serial_number || asset.SerialNumber || "",
       description: asset.description || asset.Description || "",
       status: asset.status || asset.Status || "available",
       quantity_stock:asset.QuantityStock || asset.quantity_stock || "-",
+      processor:asset.Processor || asset.processor || "-",
+      ram:asset.ram || asset.Ram || "-",
+      storage:asset.Storage || asset.storage || "-",
     });
   }, [open, asset, reset]);
 
@@ -183,7 +189,43 @@ export default function UpdateAssetSheet({
                   <p className="text-xs font-medium text-red-500">{errors.asset_name.message}</p>
                 )}
               </div>
+              {/* Processor  Name Field */}
+              <div className="space-y-1">
+                <Label htmlFor="processor">Processor spesifications</Label>
+                <Input
+                  id="processor"
+                  placeholder="Example: 12th intel i5-12400F"
+                  disabled={mutation.isPending}
+                />
+                {errors.processor && (
+                  <p className="text-xs font-medium text-red-500">{errors.processor.message}</p>
+                )}
+              </div>
 
+              {/* Ram  Name Field */}
+              <div className="space-y-1">
+                <Label htmlFor="ram">Ram spesifications</Label>
+                <Input
+                  id="ram"
+                  placeholder="Example: 4GB"
+                  disabled={mutation.isPending}
+                />
+                {errors.ram && (
+                  <p className="text-xs font-medium text-red-500">{errors.ram.message}</p>
+                )}
+              </div>
+              {/* Ram  Name Field */}
+              <div className="space-y-1">
+                <Label htmlFor="storage">Storage spesifications</Label>
+                <Input
+                  id="storage"
+                  placeholder="Example: 1TB"
+                  disabled={mutation.isPending}
+                />
+                {errors.storage && (
+                  <p className="text-xs font-medium text-red-500">{errors.storage.message}</p>
+                )}
+              </div>
               {/* Serial Number Field */}
               <div className="space-y-1">
                 <Label htmlFor="serial_number">Serial Number</Label>

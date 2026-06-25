@@ -12,6 +12,9 @@ import MaintenancePage from "@/pages/maintenance/maintenance-page";
 import AssignmentPage from "@/pages/asset-assignments/assignment-page";
 import DetailPageUser from "@/pages/user/detail-user-page";
 import DetailPageAsset from "@/pages/assets/detail-asset-page";
+import DetailPageAssignment from "@/pages/asset-assignments/detail-assignment-page";
+import DetailPageMaintenance from "@/pages/maintenance/detail-maintenance-page";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -33,7 +36,10 @@ export default function AppRoutes() {
               <Route path="/assets/:asset_id" element={<DetailPageAsset />} />
 
               <Route path="/maintenances" element={<MaintenancePage />} />
+              <Route path="/maintenances/:maintenance_id" element={<DetailPageMaintenance />} />
+
               <Route path="/asset-assignments" element={<AssignmentPage />} />
+              <Route path="/asset-assignments/:assignment_id" element={<DetailPageAssignment />} />
 
           </Route>
 

@@ -79,7 +79,7 @@ export default  function DetailCategoryDialog({
                     Created At
                     </p>
                     <p className="mt-1 text-sm font-semibold">
-                    {new Date(category.CreatedAt).toLocaleDateString()}
+                    {category.CreatedAt}
                     </p>
                 </div>
 
@@ -88,7 +88,7 @@ export default  function DetailCategoryDialog({
                     Updated At
                     </p>
                     <p className="mt-1 text-sm font-semibold">
-                    {new Date(category.UpdatedAt).toLocaleDateString()}
+                    {(category.UpdatedAt)}
                     </p>
                 </div>
                 </div>

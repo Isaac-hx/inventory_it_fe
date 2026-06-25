@@ -105,6 +105,9 @@ export default function DetailPageAsset() {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <InfoItem label="Asset ID" value={asset.AssetId || asset.asset_id || asset_id || "-"} />
                   <InfoItem label="Asset Name" value={asset.AssetName || asset.asset_name || "-"} />
+                  <InfoItem label="Processor" value={asset.Processor || asset.processor || "-"} />
+                  <InfoItem label="Ram" value={asset.Ram || asset.ram || "-"} />
+                  <InfoItem label="Storage" value={asset.Storage || asset.storage || "-"} />
                   <InfoItem label="Serial Number" value={asset.SerialNumber || asset.serial_number || "-"} />
                   <InfoItem label="Quantity Stock" value={String(asset.QuantityStock ?? asset.quantity_stock ?? "0")} />
                   <InfoItem label="Status" value={asset.Status || asset.status || "-"} className="capitalize" />

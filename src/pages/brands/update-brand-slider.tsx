@@ -149,7 +149,7 @@ export default function UpdateBranddialog({
                     Created At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(brand.CreatedAt).toLocaleDateString()}
+                    {brand.CreatedAt}
                   </p>
                 </div>
 
@@ -158,7 +158,7 @@ export default function UpdateBranddialog({
                     Updated At
                   </p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {new Date(brand.UpdatedAt).toLocaleDateString()}
+                    {brand.UpdatedAt}
                   </p>
                 </div>
               </div>

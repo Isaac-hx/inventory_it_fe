@@ -21,7 +21,7 @@ export type Maintenance = {
 export type MaintenanceRequest = {
     asset_id:string;
     description:string;
-    status:"conmpleted" | "pending" | "in_progress" | "cancelled";
+    status:"completed" | "pending" | "in_progress" | "cancelled";
     cost:number;
     maintenance_at:string;
 }
@@ -30,6 +30,7 @@ export type MaintenanceQueryParams = {
   limit?: number;
   search?: string;
   order_by?: string;
+  status?:string;
 };
 
 

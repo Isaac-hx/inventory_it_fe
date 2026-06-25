@@ -32,6 +32,7 @@ export type AssignmentQueryParams = {
   limit?: number;
   search?: string;
   order_by?: string;
+  status?:string;
 };
 
 
