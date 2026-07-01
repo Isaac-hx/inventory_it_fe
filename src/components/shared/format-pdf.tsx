@@ -6,83 +6,83 @@ Font.register({
   src: "https://fonts.gstatic.com/s/helveticaneue/v70/xxxx.ttf", // Menggunakan built-in Helvetica bawaan react-pdf juga aman
 });
 
-// Definisi Style mirip CSS / React Native
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    fontSize: 11,
+    fontSize: 10, // Sedikit diperkecil agar lebih rapi
     fontFamily: "Helvetica",
     color: "#333333",
     backgroundColor: "#ffffff",
   },
   title: {
-    fontSize: 18,
+    fontSize: 16, // Diperkecil sedikit dari 18
     fontFamily: "Helvetica-Bold",
-    marginBottom: 8,
+    marginBottom: 4,
     color: "#1a1a1a",
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 9,
     color: "#666666",
-    marginBottom: 24,
+    marginBottom: 16, // Jarak ke tabel dikurangi
   },
+  
   // Container Utama Tabel
   table: {
-    width: "auto",
+    width: "100%", // Ubah ke 100% agar memenuhi halaman secara proporsional
     borderStyle: "solid",
     borderWidth: 1,
-    borderColor: "#e5e7eb", // border abu-abu tipis (seperti Tailwind border-gray-200)
+    borderColor: "#e5e7eb", 
     borderRadius: 4,
     overflow: "hidden",
   },
+  
   // Header Tabel
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#f3f4f6", // latar abu-abu terang
+    backgroundColor: "#f3f4f6", 
     fontFamily: "Helvetica-Bold",
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
   },
+  
   // Baris Tabel (Row)
   tableRow: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: "#f3f4f6",
+    borderBottomColor: "#e5e7eb", // Disamakan agar konsisten
   },
-  // Baris Selang-seling (Zebra striping untuk baris genap)
-  tableRowEven: {
-    flexDirection: "row",
-    backgroundColor: "#f9fafb",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
-  },
-  // Kolom/Kapsul Cell
+
+  // Pengaturan Lebar Kolom (Total Harus 100%)
+  // Mengurangi padding dari 10 ke 6 atau 8 membuat row otomatis lebih ramping
   tableColHeaderLabel: {
-    width: "35%", // Lebar kolom label komponen (User, PT, Processor, dll)
-    padding: 10,
+    width: "30%", // Disesuaikan porsinya
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     color: "#374151",
   },
   tableColHeaderValue: {
-    width: "65%", // Lebar kolom nilai spesifikasinya
-    padding: 10,
+    width: "70%", // Sisa dari 100%
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     color: "#374151",
   },
   tableColLabel: {
-    width: "35%",
-    padding: 10,
-    fontFamily: "Helvetica-Bold", // Label dibuat tebal agar kontras
+    width: "30%", // Harus sama dengan header-nya
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    fontFamily: "Helvetica-Bold", 
     color: "#4b5563",
-    backgroundColor: "#f9fafb", // Sisi kiri diberi background tipis biar estetik
+    backgroundColor: "#f9fafb", 
     borderRightWidth: 1,
     borderRightColor: "#e5e7eb",
   },
   tableColValue: {
-    width: "65%",
-    padding: 10,
+    width: "70%", // Harus sama dengan header-nya
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     color: "#1f2937",
   },
 });
-
 // Tipe Data Props (Sesuaikan dengan data kamu dari backend)
 interface AssetData {
   user: string;

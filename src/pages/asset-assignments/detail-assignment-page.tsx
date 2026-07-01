@@ -15,6 +15,15 @@ import { useNavigate, useParams } from "react-router";
 import { StatusBadge } from "@/components/shared/asset-status";
 import { getAssignmentById } from "@/api/asset_assignment";
 import UpdateAssignmentSheet from "./update-assignment-slider";
+import PrintAssetButton from "@/components/shared/print-asset-button";
+
+const dummyData = {
+  user: "John Doe",
+  pt: "PT. Maju Mundur Sejahtera",
+  processor: "Intel Core i7-13700H",
+  ram: "16 GB DDR5",
+  storage: "512 GB NVMe SSD",
+};
 
 export default function DetailPageAssignment() {
   const { assignment_id } = useParams();
@@ -80,8 +89,8 @@ export default function DetailPageAssignment() {
                   </div>
                 </div>
               </div>
-
-              <Button 
+              <div className="flex flex-col gap-2">
+                              <Button 
                 onClick={(e) => {
                   e.preventDefault();
                   setEditOpen(true);
@@ -92,6 +101,11 @@ export default function DetailPageAssignment() {
                 <Edit size={18} />
                 Edit Assignment
               </Button>
+
+                <PrintAssetButton  data={dummyData}/>
+
+              </div>
+
             </div>
           </div>
 

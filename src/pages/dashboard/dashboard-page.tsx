@@ -2,9 +2,11 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getAnalyticsAssetDistributionCategory, getAnalyticsOverviewAsset } from "@/api/asset.api"; 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, Laptop, Activity, ChartPie } from "lucide-react";
+import { Clock, Laptop, Activity, ChartPie, UsersRound, User, Icon, Eye } from "lucide-react";
 import ChartPieSimple, { type PieChartDataItem } from "@/components/shared/charts";
 import type { ChartConfig } from "@/components/ui/chart";
+import { getAllAssignmentsWithQueryParams } from "@/api/asset_assignment";
+import { Link } from "react-router";
 
 type ItemInfoCardProps = {
   TitleItem: string;
@@ -33,11 +35,11 @@ function CardContentWithInfoGraphic({
           {IconCard}
           <CardTitle className="text-md font-medium text-slate-800">{TitleCard}</CardTitle>
         </div>
-        <Button variant="link" className="text-slate-500 hover:text-slate-800 text-sm p-0 h-auto font-medium">
+        <Link to={"/asset-assignments"} className="text-slate-500 hover:text-slate-800 text-sm p-0 h-auto font-medium">
           View All
-        </Button>
+        </Link>
       </CardHeader>
-      <CardContent className="flex flex-col items-center justify-center min-h-[200px] pt-4">
+      <CardContent className="">
         {children}
       </CardContent>
     </Card>
@@ -85,9 +87,24 @@ export default function DashboardPage() {
     placeholderData: keepPreviousData,
   });
 
+  const {
+    data:recentAssignmentsData,
+    isPending:isRecentAssignmentsDataPending,
+    isError:isRecentAssignmentsError,
+  } = useQuery(
+    {
+      queryKey:["assignments"],
+      queryFn:()=>getAllAssignmentsWithQueryParams({
+        order_by:"created_at_asc",
+        limit:5,  
+      }),
+      placeholderData:keepPreviousData,
+    }
+  )
+
   const dataAnalyticDashboardAssetDistributionCategory = dataAnalyticAssetDistributionCategory?.data || [];
   const dataAnalyticsDashboardOverview = dataAnalyticsOverview?.data;
-
+  const dataAnalyticsDashboardRecentAssignments = recentAssignmentsData?.data 
   // 💡 1. MAPPING DATA UNTUK CHARTPIESIMPLE secara dinamis
   const chartData: PieChartDataItem[] = dataAnalyticDashboardAssetDistributionCategory.map(
     (item: any, index: number) => ({
@@ -112,7 +129,7 @@ export default function DashboardPage() {
     };
   });
 
-  console.log(chartData,chartConfig)
+  console.log(dataAnalyticsDashboardRecentAssignments)
   return (
     <div className="space-y-6 p-4 sm:p-6 bg-slate-50/50 min-h-screen">
       
@@ -203,14 +220,41 @@ export default function DashboardPage() {
 
             {/* Kolom Kanan: Log Aktivitas atau Info Tambahan */}
             <CardContentWithInfoGraphic 
-              IconCard={<Activity className="text-purple-500" size={20} />} 
-              TitleCard="Recent Activity"
+              IconCard={<UsersRound className="text-primary" size={20} />} 
+              TitleCard="Recent Assignments"
             >
-              <div className="text-center space-y-1">
-                <Clock className="mx-auto text-slate-300 mb-2" size={32} />
-                <p className="text-sm font-medium text-slate-600">No recent activities</p>
-                <p className="text-xs text-slate-400">Updates regarding deployment and maintenance will appear here.</p>
-              </div>
+              {
+                isRecentAssignmentsDataPending ? (
+                  <p className="text-sm text-muted-foreground animate-pulse">Loading assignment data...</p>
+
+                ):isRecentAssignmentsError?(
+                <div className="text-center space-y-1">
+                    <Clock className="mx-auto text-slate-300 mb-2" size={32} />
+                    <p className="text-sm font-medium text-slate-600">No recent assignments</p>
+                    <p className="text-xs text-slate-400">Updates regarding assignment will appear here.</p>
+                  </div>
+                ):(
+                <div className="space-y-2">
+                  {dataAnalyticsDashboardRecentAssignments.map(item=>(
+                    <Link to={`/asset-assignments/${item.AssignmentId }`} className="border rounded-sm p-2 flex items-center justify-between gap-2 cursor-pointer hover:bg-slate-50/50">
+                      <div className="flex items-center gap-2">
+                        <User size={24} className="text-primary"/>
+                        <div>
+                        <p className=" font-semibold text-sm">{item.Username}</p>
+                        <p className="text-slate-500 font-normal text-xs">{item.AssetName}</p>
+                      </div>
+                      </div>
+
+                      <div className="">
+                        <Eye size={24} className="text-slate-400"/>
+                      </div>
+                    </Link>  
+                  ))}
+                </div>
+                )
+
+              }
+
             </CardContentWithInfoGraphic>
                 
           </div>          

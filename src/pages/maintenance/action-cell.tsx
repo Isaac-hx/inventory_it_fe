@@ -77,8 +77,8 @@ export default function MaintenanceActionCell({ maintenance }: { maintenance: Ma
               e.preventDefault();
               handleStatusChange("in_progress");
             }}
-            disabled={maintenance.Status == "in_progress" ? true:false}
-          >
+            disabled={maintenance.Status == "in_progress" || maintenance.Status == "completed"? true:false}
+          > 
             <Play className="mr-2 h-4 w-4 text-blue-500" />
             Start
           </DropdownMenuItem>
@@ -99,7 +99,7 @@ export default function MaintenanceActionCell({ maintenance }: { maintenance: Ma
               e.preventDefault();
               handleStatusChange("cancelled");
             }}
-            disabled={maintenance.Status == "cancelled" ? true:false}
+            disabled={maintenance.Status == "cancelled"  || maintenance.Status == "completed" ? true:false}
           >
             <X className="mr-2 h-4 w-4 text-red-500" />
             Cancel 
